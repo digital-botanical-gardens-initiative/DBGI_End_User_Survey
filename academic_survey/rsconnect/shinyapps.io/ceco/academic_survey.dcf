@@ -1,0 +1,11 @@
+name: academic_survey
+title:
+username:
+account: ceco
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 9101004
+bundleId: 7213289
+url: https://ceco.shinyapps.io/academic_survey/
+when: 1683974527.5736
+lastSyncTime: 1683974527.57362

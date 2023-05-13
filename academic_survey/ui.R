@@ -143,25 +143,3 @@ ui <- fluidPage(
                in shaping the development of the platform to meet the needs of its users. 
                Thank you in advance for your participation!")
 )
-
-server <- function(input, output, session) {
-  renderSurvey()
-  
-  observeEvent(input$submit, {
-    showModal(modalDialog(
-      title = "Congrats, you completed your first shinysurvey!",
-    ))
-    response_data <- getSurveyData()
-    print(response_data)
-  })
-
-
-}
-
-shinyApp(ui, server)
-
-deployApp(ui, server)
-
-library(rsconnect)
-deployApp()
-
