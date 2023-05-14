@@ -1,0 +1,11 @@
+name: academic_surveyOnline
+title:
+username:
+account: dbgi
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 9104498
+bundleId: 7215667
+url: https://dbgi.shinyapps.io/academic_surveyOnline/
+when: 1684050628.34168
+lastSyncTime: 1684050628.34168
