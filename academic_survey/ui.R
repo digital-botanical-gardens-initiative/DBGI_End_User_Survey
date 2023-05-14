@@ -47,31 +47,37 @@ Q2 <- data.frame(question = "How interested are you in exploring the topic of ch
                  dependence_value = NA,
                  required = F)
   
-# Define question in the format of a shinysurvey
-Q3 <- data.frame(
-  question = "What type of data would you like to see on an online platform exploring chemodiversity?",
-  option = c("chemical structures", "biological activities", "ecological information"),
-  input_type = "check",
-  input_id = "connected data",
-  dependence = NA,
-  dependence_value = NA,
-  required = TRUE
 )
 
-
 # Define question in the format of a shinysurvey
-Q4 <- data.frame(
-  question = "What type of data would you like to see on an online platform exploring chemodiversity?",
-  option = c("feature table","spectra","chemical structures", "biological activities", "ecological information"),
-  input_type = "check",
-  input_id = "data type",
-  dependence = c(NA,NA,NA,NA,NA),
-  dependence_value = NA,
-  required = TRUE
+
+Q3  <- data.frame(
+  stringsAsFactors = FALSE,
+  question = c("What type of data would you like to see on an online platform exploring chemodiversity?",
+               "What type of data would you like to see on an online platform exploring chemodiversity?",
+               "What type of data would you like to see on an online platform exploring chemodiversity?",
+               "What type of data would you like to see on an online platform exploring chemodiversity?",
+               "What type of data would you like to see on an online platform exploring chemodiversity?",
+               "What type of data would you like to see on an online platform exploring chemodiversity?",
+               "What type of data would you like to see on an online platform exploring chemodiversity?",
+               "What type of data would you like to see on an online platform exploring chemodiversity?",
+               "other sugestion?"),
+  option = c("feature table","spectra","chemical structures","InChI","biological activities","ecological information",
+  "taxonomy","ecological information", NA),
+  input_type = c("check","check","check",
+                 "check","check","check",
+                 "check","check","text"),## check or mc
+  input_id = c("type","type","type",
+               "type","type","type",
+               "type","type","self_describe_type"),
+  dependence = c(NA,NA,NA,NA,NA,NA,NA,NA,"type"),
+  dependence_value = c(NA,NA,NA,NA,NA,NA,NA,NA,
+                       "other sugestion"),
+  required = c(FALSE,FALSE,FALSE,FALSE,FALSE,FALSE,FALSE,FALSE,
+               FALSE)
 )
 
-
-Q5  <- data.frame(
+Q4  <- data.frame(
   stringsAsFactors = FALSE,
   question = c("How would you like to be able to search for data?",
                "How would you like to be able to search for data?",
@@ -79,7 +85,7 @@ Q5  <- data.frame(
                "How would you like to be able to search for data?",
                "How would you like to be able to search for data?",
                "other sugestion?"),
-  option = c("dataframe","search tools","interactive network","interactive maps","other sugestion",NA),
+  option = c("dataframe","search toolbar","interactive network","interactive maps","other sugestion",NA),
   input_type = c("check","check","check",
                  "check","check","text"),## check or mc
   input_id = c("search","search","search",
@@ -91,7 +97,7 @@ Q5  <- data.frame(
                FALSE)
 )
 
-Q6  <- data.frame(
+Q5  <- data.frame(
   stringsAsFactors = FALSE,
   question = c("Would you be interested in contributing data to an online platform exploring chemodiversity?",
                "Would you be interested in contributing data to an online platform exploring chemodiversity?",
@@ -106,7 +112,7 @@ Q6  <- data.frame(
 
 
 # Define question in the format of a shinysurvey
-Q7 <- data.frame(
+Q6 <- data.frame(
   question = "How important is it for an online platform exploring chemodiversity to connect with existing open data sources?
 ",
   option = c("High", "Moderate", "Low","None"),
@@ -119,7 +125,7 @@ Q7 <- data.frame(
 
 
 
-Q8 <- data.frame(
+Q7 <- data.frame(
   question = "Would you be willing to contribute your own data to existing open data sources related to chemodiversity?",
   option = c("yes","no"),
   input_type = "y/n",
@@ -129,7 +135,7 @@ Q8 <- data.frame(
   required = TRUE
 )
 
-survey_questions <- tibble(rbind(Q1,Q2,Q3,Q4,Q5,Q6,Q7,Q8))
+survey_questions <- tibble(rbind(Q1,Q2,Q3,Q4,Q5,Q6,Q7))
 
 
 ui <- fluidPage(
