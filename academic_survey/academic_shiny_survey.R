@@ -1,6 +1,5 @@
 library(shiny)
 library(shinysurveys)
-library(dplyr)
 library(tidyverse)
 
 
@@ -159,9 +158,3 @@ server <- function(input, output, session) {
 }
 
 shinyApp(ui, server)
-
-deployApp(ui, server)
-
-library(rsconnect)
-deployApp()
-
