@@ -1,8 +1,10 @@
+
+## Source packages ----
 library(shiny)
 library(shinysurveys)
 library(tidyverse)
 
-
+## Set up basic formatting ----
 title <- "Palmer penguins"
 previewImages <- list(
   list(
@@ -28,23 +30,26 @@ extendInputType("checkbox", {
   )
 })
 
- 
-Q1 <- data.frame(question = "What is your area of research?",
-                 option = "Your Answer",
-                 input_type = "text",
-                 input_id = "Q1",
-                 dependence = NA,
-                 dependence_value = NA,
-                 required = F)
+## Questions ----
+Q1 <- data.frame(
+  question = "What is your area of research?",
+  option = "Your Answer",
+  input_type = "text",
+  input_id = "Q1",
+  dependence = NA,
+  dependence_value = NA,
+  required = F
+)
 
-
-Q2 <- data.frame(question = "How interested are you in exploring the topic of chemodiversity in life?",
-                 option = "Your Answer",
-                 input_type = "text",
-                 input_id = "Q2",
-                 dependence = NA,
-                 dependence_value = NA,
-                 required = F)
+Q2 <- data.frame(
+  question = "How interested are you in exploring the topic of chemodiversity in life?",
+  option = "Your Answer",
+  input_type = "text",
+  input_id = "Q2",
+  dependence = NA,
+  dependence_value = NA,
+  required = F
+)
   
 # Define question in the format of a shinysurvey
 Q3 <- data.frame(
@@ -133,13 +138,12 @@ survey_questions <- tibble(rbind(Q1,Q2,Q3,Q4,Q5,Q6,Q7,Q8))
 
 ui <- fluidPage(
   surveyOutput(df = survey_questions,
-               survey_title = "Digiltal Botanical Garden Initiative: Users expectations",
-               survey_description = "Welcome to this survey on user expectations for the DBGI project!
-              As the project is still in its early stages, 
-               we are interested in your thoughts and expectations regarding the platform. 
-               The purpose of this survey is to gather your expectations as a potential user 
-               and the features you would like to see developed.Your feedback will be essential
-               in shaping the development of the platform to meet the needs of its users. 
+               survey_title = "Digital Botanical Garden Initiative: user expectations",
+               survey_description = "Thanks for coming.
+              We are determined to build the DBGI in a way that is as useful and intuitive to as many people as possible.
+              We'd therefore be grateful to hear about your needs, expectations, and suggestions for such a platform. 
+              We're particularly interested in understanding your expectations as a potential user 
+              and in hearing about any specific features you would like to see developed.
                Thank you in advance for your participation!")
 )
 
