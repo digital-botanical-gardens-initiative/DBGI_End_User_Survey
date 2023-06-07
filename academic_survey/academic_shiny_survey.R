@@ -1,10 +1,22 @@
+################################################################################
+#### Project: DBGI - Shiny App
+#### Title:   Academic survey backend
+#### Author:  Tom Walker (thomas.walker@unine.ch)
+#### Date:    7 June 2023
+#### ---------------------------------------------------------------------------
+
+
+#### PROLOGUE ------------------------------------------------------------------
 
 ## Source packages ----
 library(shiny)
 library(shinysurveys)
 library(tidyverse)
 
-## Set up basic formatting ----
+
+#### FORMATTING ----------------------------------------------------------------
+
+## Title ----
 title <- "Palmer penguins"
 previewImages <- list(
   list(
@@ -14,6 +26,25 @@ previewImages <- list(
   )
 )
 
+# Input types ----
+extendInputType("radio_inline", {
+  shiny::radioButtons(
+    inputId = surveyID(),
+    label = surveyLabel(),
+    choices = surveyOptions(),
+    inline = T
+  )
+})
+
+extendInputType("check_inline", {
+  shiny::checkboxGroupInput(
+    inputId = surveyID(),
+    label = surveyLabel(),
+    choices = surveyOptions(),
+    inline = T
+  )
+})
+
 extendInputType("check", {
   shiny::checkboxGroupInput(
     inputId = surveyID(),
@@ -22,134 +53,170 @@ extendInputType("check", {
   )
 })
 
-extendInputType("checkbox", {
-  shiny::checkboxGroupInput(
-    inputId = surveyID(),
-    label = surveyLabel(),
-    choices = surveyOptions(),
-  )
-})
 
-## Questions ----
+#### QUESTIONS -----------------------------------------------------------------
+
 Q1 <- data.frame(
-  question = "What is your area of research?",
-  option = "Your Answer",
+  question = "What is your research domain?",
+  option = "",
   input_type = "text",
   input_id = "Q1",
   dependence = NA,
   dependence_value = NA,
-  required = F
+  required = T
 )
 
 Q2 <- data.frame(
-  question = "How interested are you in exploring the topic of chemodiversity in life?",
-  option = "Your Answer",
-  input_type = "text",
+  question = "How relevant is chemodiversity to your research?",
+  option = c("Not at all", "Somewhat", "Very"),
+  input_type = "radio_inline",
   input_id = "Q2",
+  dependence = NA,
+  dependence_value = NA,
+  required = T
+)
+
+Q3 <- data.frame(
+  question = "Would you consider using a chemodiversity platform?",
+  option = c("Unsure", "No", "Yes"),
+  input_type = "radio_inline",
+  input_id = "Q3",
+  dependence = NA,
+  dependence_value = NA,
+  required = T
+)
+
+Q3A <- data.frame(
+  question = "Can you tell us why not?",
+  option = "",
+  input_type = "text",
+  input_id = "Q3A",
+  dependence = "Q3",
+  dependence_value = "No",
+  required = F
+)
+
+Q3B <- data.frame(
+  question = "In which capacity would you use such a platform:",
+  option = c("Data user", "Data contributor", "Developer"),
+  input_type = "check_inline",
+  input_id = "Q3B",
+  dependence = "Q3",
+  dependence_value = "Yes",
+  required = T
+)
+
+Q4 <- data.frame(
+  question = "What type of information would you like to see on a chemodiversity platform?",
+  option = c("Chemical structures", "Biological activities", "Taxonomical information", "Ecological information", "Other"),
+  input_type = "check",
+  input_id = "Q4",
   dependence = NA,
   dependence_value = NA,
   required = F
 )
-  
-# Define question in the format of a shinysurvey
-Q3 <- data.frame(
-  question = "What type of data would you like to see on an online platform exploring chemodiversity?",
-  option = c("chemical structures", "biological activities", "ecological information"),
+
+Q4A <- data.frame(
+  question = "If other, please specify:",
+  option = "",
+  input_type = "text",
+  input_id = "Q4A",
+  dependence = "Q4",
+  dependence_value = "Other",
+  required = F
+)
+
+Q5 <- data.frame(
+  question = "How would you prefer to explore data on the platform?",
+  option = c("Table", "Search box", "Interactive network", "Interactive map", "Other"),
   input_type = "check",
-  input_id = "connected data",
+  input_id = "Q5",
   dependence = NA,
   dependence_value = NA,
-  required = TRUE
+  required = F
 )
 
+Q5A <- data.frame(
+  question = "If other, please specify:",
+  option = "",
+  input_type = "text",
+  input_id = "Q5A",
+  dependence = "Q5",
+  dependence_value = "Other",
+  required = F
+)
 
-# Define question in the format of a shinysurvey
-Q4 <- data.frame(
-  question = "What type of data would you like to see on an online platform exploring chemodiversity?",
-  option = c("feature table","spectra","chemical structures", "biological activities", "ecological information"),
-  input_type = "check",
-  input_id = "data type",
-  dependence = c(NA,NA,NA,NA,NA),
+Q6 <- data.frame(
+  question = "Do you already contribute chemodiversity data to an open data service?",
+  option = c("No", "Yes"),
+  input_type = "radio_inline",
+  input_id = "Q6",
+  dependence = NA,
   dependence_value = NA,
-  required = TRUE
+  required = F
 )
 
-
-Q5  <- data.frame(
-  stringsAsFactors = FALSE,
-  question = c("How would you like to be able to search for data?",
-               "How would you like to be able to search for data?",
-               "How would you like to be able to search for data?",
-               "How would you like to be able to search for data?",
-               "How would you like to be able to search for data?",
-               "other sugestion?"),
-  option = c("dataframe","search tools","interactive network","interactive maps","other sugestion",NA),
-  input_type = c("check","check","check",
-                 "check","check","text"),## check or mc
-  input_id = c("search","search","search",
-               "search","search","self_describe_search"),
-  dependence = c(NA,NA,NA,NA,NA,"search"),
-  dependence_value = c(NA,NA,NA,NA,NA,
-                       "other sugestion"),
-  required = c(FALSE,FALSE,FALSE,FALSE,FALSE,
-               FALSE)
+Q6A <- data.frame(
+  question = "Which open data service do you use?",
+  option = "",
+  input_type = "text",
+  input_id = "Q6A",
+  dependence = "Q6",
+  dependence_value = "Yes",
+  required = F
 )
 
-Q6  <- data.frame(
-  stringsAsFactors = FALSE,
-  question = c("Would you be interested in contributing data to an online platform exploring chemodiversity?",
-               "Would you be interested in contributing data to an online platform exploring chemodiversity?",
-               "If yes, what type of data would you be willing to contribute?"),
-  option = c("No","Yes",NA),
-  input_type = c("mc","mc","text"),## check or mc
-  input_id = c("share","share","self_describe_share"),
-  dependence = c(NA,NA,"share"),
-  dependence_value = c(NA,NA,"Yes"),
-  required = c(FALSE,FALSE,FALSE)
-)
-
-
-# Define question in the format of a shinysurvey
 Q7 <- data.frame(
-  question = "How important is it for an online platform exploring chemodiversity to connect with existing open data sources?
-",
-  option = c("High", "Moderate", "Low","None"),
-  input_type = "mc",
-  input_id = "connected sources",
-  dependence = c(NA, NA,NA,NA),
+  question = "Should a chemodiversity platform interface directly with existing chemodiversity data sources?",
+  option = c("Unsure", "No", "Yes"),
+  input_type = "radio_inline",
+  input_id = "Q7",
+  dependence = NA,
   dependence_value = NA,
-  required = TRUE
+  required = F
 )
-
-
 
 Q8 <- data.frame(
-  question = "Would you be willing to contribute your own data to existing open data sources related to chemodiversity?",
-  option = c("yes","no"),
-  input_type = "y/n",
-  input_id = "favorite",
+  question = "Should a chemodiversity platform interface directly with other types of open data (e.g. ecological data)?",
+  option = c("Unsure", "No", "Yes"),
+  input_type = "radio_inline",
+  input_id = "Q8",
   dependence = NA,
   dependence_value = NA,
-  required = TRUE
+  required = F
 )
 
-survey_questions <- tibble(rbind(Q1,Q2,Q3,Q4,Q5,Q6,Q7,Q8))
+Q8A <- data.frame(
+  question = "Which other sources of open data are most relevant to you?",
+  option = "",
+  input_type = "text",
+  input_id = "Q8A",
+  dependence = "Q8",
+  dependence_value = "Yes",
+  required = F
+)
 
 
+#### BUILD SURVEY --------------------------------------------------------------
+
+## Aggregate questions ----
+survey_questions <- tibble(rbind(Q1, Q2, Q3, Q3A, Q3B, Q4, Q4A, Q5, Q5A, Q6, Q6A, Q7, Q8, Q8A))
+
+## Build UI ----
 ui <- fluidPage(
-  surveyOutput(df = survey_questions,
-               survey_title = "Digital Botanical Garden Initiative: user expectations",
-               survey_description = "Thanks for coming.
-              We are determined to build the DBGI in a way that is as useful and intuitive to as many people as possible.
-              We'd therefore be grateful to hear about your needs, expectations, and suggestions for such a platform. 
-              We're particularly interested in understanding your expectations as a potential user 
-              and in hearing about any specific features you would like to see developed.
-               Thank you in advance for your participation!")
+  surveyOutput(
+    df = survey_questions,
+    survey_title = "Digital Botanical Garden Initiative: user expectations",
+    survey_description = 
+      "We want to build the DBGI in a way that is as useful and intuitive as possible.
+       Please use this short survey to tell us about what you wish to be included on a chemodiversity platform.
+       Thank you for your participation!"
+  )
 )
 
+## Build server ----
 server <- function(input, output, session) {
   renderSurvey()
-  
   observeEvent(input$submit, {
     showModal(modalDialog(
       title = "Congrats, you completed your first shinysurvey!",
@@ -157,8 +224,7 @@ server <- function(input, output, session) {
     response_data <- getSurveyData()
     print(response_data)
   })
-
-
 }
 
+## Test ----
 shinyApp(ui, server)
